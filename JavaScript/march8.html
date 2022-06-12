@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DOM Events</title>
+  </head>
+  <body>
+    <h1>DOM Events</h1>
+    <p>We will play with a number of DOM events today!!!!</p>
+    <h2>Mouse Information:</h2>
+    <p>
+      Mouse position:
+      <strong>
+        (<span id="mouseX">100</span> ,<span id="mouseY">200</span></strong
+      >
+      )
+    </p>
+    <h2 id="temp">Cat</h2>
+    <img
+      src="https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fGNhdHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=400&q=60"
+      alt="A picture here"
+      id="cat"
+      width="300"
+    />
+    <br />
+    <button id="btn">Load cats here...</button>
+    <p id="cat-list"></p>
+    <script>
+      //   window.onload = function () {
+      //     console.log("Window loaded!");
+      //   };
+      addEventListener("DOMContentLoaded", function () {
+        //console.log("DOM contents are loaded ");
+        var myCat = document.querySelector("#cat");
+        document.body.onmousemove = function (evt) {
+          // console.log("Body Clicked!!!");
+          // console.log(evt.clientX);
+          // console.log(evt.clientY);
+          var mouseX = document.querySelector("#mouseX");
+          var mouseY = document.querySelector("#mouseY");
+          mouseX.innerText = evt.clientX;
+          mouseY.innerText = evt.clientY;
+        };
+        myCat.onclick = function (e) {
+          // console.log("Cat <img> Clicked!!");
+          //   console.log(e);
+          myCat.src = nextCatImageUrl();
+          e.stopPropagation();
+        };
+        var currentCatIndex = 0;
+        function nextCatImageUrl() {
+          currentCatIndex++; //Random here ... and
+          if (currentCatIndex === cats.length - 1) {
+            currentCatIndex = 0;
+          }
+          return cats[currentCatIndex];
+        }
+        //setTimeout(function,time);
+        // setTimeout(function () {
+        //   myCat.src = nextCatImageUrl();
+        // }, 3000);
+        setInterval(function () {
+          myCat.src = nextCatImageUrl();
+        }, 3000);
+        // myCat.onload = function () {
+        //   console.log("Cat <img> loaded");
+        // };
+        myCat.onerror = function () {
+          console.error("Cat <img> has an error");
+        };
+        var myBtn = document.querySelector("#btn");
+        var myPara = document.querySelector("#cat-list");
+        myBtn.addEventListener("click", function () {
+          var ol = document.createElement("ol");
+          // ol.innerHTML = "<li>URL1</li><li>URL2</li><li>URL3</li>";
+          // <a href="url">url </a>
+          cats.forEach(function (url) {
+            var li = document.createElement("li");
+            var a = document.createElement("a");
+            a.href = url;
+            a.innerText = url;
+            li.appendChild(a);
+            // li.innerText = url;
+            ol.appendChild(li);
+          });
+          myPara.appendChild(ol);
+        });
+      });
+    </script>
+    <script src="march8.js"></script>
+  </body>
+</html>
